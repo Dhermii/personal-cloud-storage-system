@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Login page</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="loginpage.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="container">
+            <h2>Welcome</h2>
+            <form action="loginservlet" method="post" class="login-box">
+                Email:<br>
+                <input type="text" name="email" placeholder="Enter Email"><br>
+                Password:<br>
+                <input type="password" name="password" placeholder="Enter Password"><br>
+
+                <button type="submit">Login</button>
+                <a href="registerpage.jsp">
+                    <button type="button">Register</button>
+                </a>
+
+
+            </form>
+        </div>
+    </body>
+</html>
