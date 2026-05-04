@@ -11,15 +11,22 @@ import java.sql.*;
  */
 public class dbconnection {
     public static Connection getcon(){
-        try{
+         Connection con = null;        
+
+        try {
+            String url = "jdbc:mysql://switchyard.proxy.rlwy.net:35589/railway";
+
+            String user = "root";
+            String password = "rKGbDQeYiUPakTnYuZoIDBbmqOGkmRMw";
+
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/personal_cloud_storage_systemdb",
-                "root","");
-            return con;
+
+            con = DriverManager.getConnection(url, user, password);
+
+        } catch (Exception e) {
+            System.out.println("DB Connection Error: " + e.getMessage());
         }
-        catch(Exception e){
-        System.out.println(e);
-        return null;
-        }
+
+        return con;
     }
 }

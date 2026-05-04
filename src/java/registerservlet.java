@@ -46,7 +46,7 @@ public class registerservlet extends HttpServlet {
         Connection con = dbconnection.getcon();
 
         PreparedStatement ps = con.prepareStatement(
-                "INSERT INTO user(name, email, password) VALUES (?, ?, ?)"
+                "INSERT INTO users(name, email, password) VALUES (?, ?, ?)"
         );
 
         ps.setString(1, name);

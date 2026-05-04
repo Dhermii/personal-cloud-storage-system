@@ -33,7 +33,7 @@ public class DownloadServlet extends HttpServlet {
             Connection con = dbconnection.getcon();
 
             PreparedStatement ps = con.prepareStatement(
-                "SELECT * FROM files WHERE file_id=?"
+                "SELECT file_name, file_path FROM files WHERE file_id=?"
             );
             ps.setInt(1, fileId);
 
@@ -41,37 +41,11 @@ public class DownloadServlet extends HttpServlet {
 
             if (rs.next()) {
 
-                String filePath = rs.getString("file_path");
-                String fileName = rs.getString("file_name"); 
-
-                File file = new File(filePath);
+                String fileUrl = rs.getString("file_path"); 
+                String fileName = rs.getString("file_name");
 
                 
-                if (!file.exists()) {
-                    response.getWriter().println("File not found on server!");
-                    return;
-                }
-
-                
-                response.setContentType("application/octet-stream");
-                response.setContentLength((int) file.length());
-                response.setHeader("Content-Disposition",
-                        "attachment; filename=\"" + fileName + "\"");
-
-              
-                FileInputStream fis = new FileInputStream(file);
-                OutputStream os = response.getOutputStream();
-
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-
-                while ((bytesRead = fis.read(buffer)) != -1) {
-                    os.write(buffer, 0, bytesRead);
-                }
-
-                os.flush();
-                fis.close();
-                os.close();
+                response.sendRedirect(fileUrl);
             }
 
         } catch (Exception e) {
@@ -79,4 +53,3 @@ public class DownloadServlet extends HttpServlet {
         }
     }
 }
-   

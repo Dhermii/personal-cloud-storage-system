@@ -23,7 +23,7 @@ public class table {
         
         try{
             Statement st=con.createStatement();
-           // st.executeUpdate("CREATE TABLE user (userid INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(255),email VARCHAR(255), password VARCHAR(255))");
+           // st.executeUpdate("CREATE TABLE users (userid INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(255),email VARCHAR(255), password VARCHAR(255))");
           //  st.executeUpdate("CREATE TABLE files (file_id INT AUTO_INCREMENT PRIMARY KEY, userid INT,file_name VARCHAR(255), file_path VARCHAR(255),file_size int, upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,file_type VARCHAR(255), FOREIGN KEY (userid) REFERENCES user(userid))");
            JOptionPane.showMessageDialog(null, "table created successfully");
          }
@@ -34,7 +34,7 @@ public class table {
         
        */
        
-       Connection con = null;
+      /* Connection con = null;
         PreparedStatement ps = null;
         try{
         
@@ -46,12 +46,12 @@ public class table {
                 JOptionPane.showMessageDialog(null, "Connection failed!");
                 return;
             }
-
+*/
             // -------------------------------
             // CREATE SUPERADMIN WITH HASHED PASSWORD
             // -------------------------------
 
-           String plainPassword = "admin";
+         /*  String plainPassword = "admin";
 String hashedPassword = userpassword.hashPassword(plainPassword);
             
 
@@ -78,7 +78,7 @@ String hashedPassword = userpassword.hashPassword(plainPassword);
                 e.printStackTrace();
             }
         }
-      
+      */
         }
      }
      

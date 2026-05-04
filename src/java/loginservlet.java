@@ -35,7 +35,7 @@ public class loginservlet extends HttpServlet {
            
             Connection con = dbconnection.getcon();
             PreparedStatement ps = con.prepareStatement(
-                    "SELECT userid, name FROM user WHERE email=? AND password=?");
+                    "SELECT userid, name FROM users WHERE email=? AND password=?");
             ps.setString(1, email);
 
             String hashedPassword = userpassword.hashPassword(password);
