@@ -3,13 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/src/java/registerservlet.java</file>
+            <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/src/java/loginservlet.java</file>
+            <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/web/mainpage.jsp</file>
+            <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/web/registerpage.jsp</file>
+            <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/web/index.html</file>
+            <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/src/java/data/dbconnection.java</file>
             <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/src/java/UploadServlet.java</file>
             <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/src/java/DownloadServlet.java</file>
             <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/src/java/DeleteServlet.java</file>
-            <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/src/java/CloudinaryConfig.java</file>
-            <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/src/java/LogoutServlet.java</file>
-            <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/src/java/loginservlet.java</file>
-            <file>file:/C:/Users/herme/Documents/NetBeansProjects/Personal_Cloud_Storage_System/src/java/registerservlet.java</file>
         </group>
     </open-files>
 </project-private>

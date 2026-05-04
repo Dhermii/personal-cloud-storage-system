@@ -30,24 +30,28 @@ public class UploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          HttpSession session = request.getSession();
-
-        if (session.getAttribute("userid") == null) {
-            response.sendRedirect("index.html");
-            return;
-        }
-
-        int userId = (int) session.getAttribute("userid");
-
-        Part filePart = request.getPart("file");
-        String originalFileName = filePart.getSubmittedFileName();
-
-        if (originalFileName == null || originalFileName.isEmpty()) {
-            response.sendRedirect("mainpage.jsp");
-            return;
-        }
+          response.setContentType("text/html");
 
         try {
+
+            
+            HttpSession session = request.getSession(false);
+
+            if (session == null || session.getAttribute("userid") == null) {
+                response.sendRedirect("index.html");
+                return;
+            }
+
+            int userId = (int) session.getAttribute("userid");
+
+            
+            Part filePart = request.getPart("file");
+            String originalFileName = filePart.getSubmittedFileName();
+
+            if (originalFileName == null || originalFileName.isEmpty()) {
+                response.getWriter().println("No file selected!");
+                return;
+            }
 
             
             Map uploadResult = CloudinaryConfig.cloudinary.uploader().upload(
@@ -57,13 +61,15 @@ public class UploadServlet extends HttpServlet {
 
             String fileUrl = (String) uploadResult.get("secure_url");
 
-            String fileType = originalFileName.contains(".")
-                    ? originalFileName.substring(originalFileName.lastIndexOf(".") + 1)
-                    : "other";
+            
+            String fileType = "other";
+            if (originalFileName.contains(".")) {
+                fileType = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
+            }
 
             long fileSize = filePart.getSize();
 
-           
+            
             Connection con = dbconnection.getcon();
 
             PreparedStatement ps = con.prepareStatement(
@@ -72,18 +78,21 @@ public class UploadServlet extends HttpServlet {
 
             ps.setInt(1, userId);
             ps.setString(2, originalFileName);
-            ps.setString(3, fileUrl); 
+            ps.setString(3, fileUrl);
             ps.setLong(4, fileSize);
             ps.setString(5, fileType);
 
             ps.executeUpdate();
 
+            ps.close();
             con.close();
+
+           
+            response.sendRedirect("mainpage.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.getWriter().println("UPLOAD ERROR: " + e.getMessage());
         }
-
-        response.sendRedirect("mainpage.jsp");
     }
 }

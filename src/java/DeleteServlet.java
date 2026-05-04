@@ -25,40 +25,42 @@ public class DeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int fileId = Integer.parseInt(request.getParameter("id"));
+         try {
 
-        try {
+            int fileId = Integer.parseInt(request.getParameter("id"));
+
             Connection con = dbconnection.getcon();
 
-            
+           
             PreparedStatement ps1 = con.prepareStatement(
                 "SELECT file_path FROM files WHERE file_id=?"
             );
+
             ps1.setInt(1, fileId);
 
             ResultSet rs = ps1.executeQuery();
 
             if (rs.next()) {
-
                 String fileUrl = rs.getString("file_path");
 
                
-
             }
 
-           
             
             PreparedStatement ps2 = con.prepareStatement(
                 "DELETE FROM files WHERE file_id=?"
             );
-            ps2.setInt(1, fileId);
 
+            ps2.setInt(1, fileId);
             ps2.executeUpdate();
+
+            con.close();
+
+            response.sendRedirect("mainpage.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.getWriter().println("DELETE ERROR: " + e.getMessage());
         }
-
-        response.sendRedirect("mainpage.jsp");
     }
 }

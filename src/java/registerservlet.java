@@ -26,43 +26,45 @@ public class registerservlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          
+        response.setContentType("text/html");
+
         String name = request.getParameter("name");
-    String email = request.getParameter("email");
-    String password = request.getParameter("password");
-    String confirmPassword = request.getParameter("confirmpassword");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmpassword");
 
-    try {
+        try {
 
-       
-        if (!password.equals(confirmPassword)) {
-            response.getWriter().println("Passwords do not match!");
-            return;
-        }
+            if (name == null || email == null || password == null) {
+                response.getWriter().println("Missing fields!");
+                return;
+            }
 
-        
-        String hashedPassword = userpassword.hashPassword(password);
+            if (!password.equals(confirmPassword)) {
+                response.getWriter().println("Passwords do not match!");
+                return;
+            }
 
-        
-        Connection con = dbconnection.getcon();
+            String hashedPassword = userpassword.hashPassword(password);
 
-        PreparedStatement ps = con.prepareStatement(
+            Connection con = dbconnection.getcon();
+
+            PreparedStatement ps = con.prepareStatement(
                 "INSERT INTO users(name, email, password) VALUES (?, ?, ?)"
-        );
+            );
 
-        ps.setString(1, name);
-        ps.setString(2, email);
-        ps.setString(3, hashedPassword);
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ps.setString(3, hashedPassword);
 
-        ps.executeUpdate();
+            ps.executeUpdate();
+            con.close();
 
-        con.close();
+            response.sendRedirect(request.getContextPath() + "/index.html");
 
-        
-        response.sendRedirect("index.html");
-
-    } catch (Exception e) {
-        e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().println("ERROR REGISTER: " + e.getMessage());
+        }
     }
-}
-
 }

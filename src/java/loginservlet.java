@@ -28,42 +28,53 @@ public class loginservlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String email = request.getParameter("email").trim();
-        String password = request.getParameter("password").trim();
+         response.setContentType("text/html");
+
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
         try {
-           
-            Connection con = dbconnection.getcon();
-            PreparedStatement ps = con.prepareStatement(
-                    "SELECT userid, name FROM users WHERE email=? AND password=?");
-            ps.setString(1, email);
 
-            String hashedPassword = userpassword.hashPassword(password);
-            ps.setString(2, hashedPassword);
+            if (email == null || password == null) {
+                response.getWriter().println("Missing login fields!");
+                return;
+            }
+
+            Connection con = dbconnection.getcon();
+
+            String sql = "SELECT userid, name, password FROM users WHERE email=?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, email);
 
             ResultSet rs = ps.executeQuery();
 
-            
             if (rs.next()) {
+
+                String dbPassword = rs.getString("password");
+
+                String hashedPassword = userpassword.hashPassword(password);
+
+                if (!dbPassword.equals(hashedPassword)) {
+                    response.getWriter().println("Wrong password!");
+                    return;
+                }
 
                 int userId = rs.getInt("userid");
                 String name = rs.getString("name");
 
                 HttpSession session = request.getSession();
-                session.setAttribute("userid", userId);   // ⭐ IMPORTANT
+                session.setAttribute("userid", userId);
                 session.setAttribute("name", name);
 
-                response.sendRedirect("mainpage.jsp");
+                response.sendRedirect(request.getContextPath() + "/mainpage.jsp");
 
             } else {
-                
-                request.setAttribute("error", "Invalid email or password");
-                request.getRequestDispatcher("index.html").forward(request, response);
+                response.getWriter().println("User not found!");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.getWriter().println("ERROR LOGIN: " + e.getMessage());
         }
-
     }
 }

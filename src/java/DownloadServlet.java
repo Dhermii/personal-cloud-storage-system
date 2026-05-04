@@ -27,29 +27,36 @@ public class DownloadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       int fileId = Integer.parseInt(request.getParameter("id"));
-
         try {
+
+            int fileId = Integer.parseInt(request.getParameter("id"));
+
             Connection con = dbconnection.getcon();
 
             PreparedStatement ps = con.prepareStatement(
                 "SELECT file_name, file_path FROM files WHERE file_id=?"
             );
+
             ps.setInt(1, fileId);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
 
-                String fileUrl = rs.getString("file_path"); 
-                String fileName = rs.getString("file_name");
+                String fileUrl = rs.getString("file_path");
 
-                
+               
                 response.sendRedirect(fileUrl);
+
+            } else {
+                response.getWriter().println("File not found!");
             }
+
+            con.close();
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.getWriter().println("DOWNLOAD ERROR: " + e.getMessage());
         }
     }
 }
