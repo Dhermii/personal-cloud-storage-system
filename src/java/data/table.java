@@ -14,7 +14,7 @@ public class table {
      public static void main(String[] args){
          //Connection con=null;
          //Statement st=null;
-       /**  Connection con=dbconnection.getcon();         
+     /*   Connection con=dbconnection.getcon();         
         if (con != null) {
             JOptionPane.showMessageDialog(null, "Connection successful!");
         } else {
@@ -24,14 +24,16 @@ public class table {
         try{
             Statement st=con.createStatement();
            // st.executeUpdate("CREATE TABLE user (userid INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(255),email VARCHAR(255), password VARCHAR(255))");
-            st.executeUpdate("CREATE TABLE files (file_id INT AUTO_INCREMENT PRIMARY KEY, userid INT,file_name VARCHAR(255), file_path VARCHAR(255),file_size int, upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,file_type VARCHAR(255), FOREIGN KEY (userid) REFERENCES user(userid))");
+          //  st.executeUpdate("CREATE TABLE files (file_id INT AUTO_INCREMENT PRIMARY KEY, userid INT,file_name VARCHAR(255), file_path VARCHAR(255),file_size int, upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,file_type VARCHAR(255), FOREIGN KEY (userid) REFERENCES user(userid))");
            JOptionPane.showMessageDialog(null, "table created successfully");
          }
         catch(Exception e){
               
               System.out.println(e);
-        }**/
+        }
         
+       */
+       
        Connection con = null;
         PreparedStatement ps = null;
         try{

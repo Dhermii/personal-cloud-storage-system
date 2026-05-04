@@ -30,7 +30,7 @@ public class UploadServlet extends HttpServlet {
             throws ServletException, IOException {
          HttpSession session = request.getSession();
 
-        // 🔐 Check if user is logged in
+        
         if (session.getAttribute("userid") == null) {
             response.sendRedirect("index.html");
             return;
@@ -38,33 +38,33 @@ public class UploadServlet extends HttpServlet {
 
         int userId = (int) session.getAttribute("userid");
 
-        // 📁 Get file
+       
         Part filePart = request.getPart("file");
         String originalFileName = filePart.getSubmittedFileName();
 
-        // 🛑 Check empty file
+        
         if (originalFileName == null || originalFileName.isEmpty()) {
             response.sendRedirect("mainpage.jsp");
             return;
         }
 
-        // 📂 Upload folder
+        
         String uploadPath = "C:\\Users\\herme\\Documents\\personal cloud storage system";
 
-        // 📂 User folder
+        
         String userFolderPath = uploadPath + File.separator + userId;
         File userDir = new File(userFolderPath);
         if (!userDir.exists()) {
             userDir.mkdirs();
         }
 
-        // 🧠 Unique file name
+        
         String fileName = System.currentTimeMillis() + "_" + originalFileName;
 
         String filePath = userFolderPath + File.separator + fileName;
         int fileSize = (int) filePart.getSize();
 
-        // ✅ 🔥 DETECT FILE TYPE (IMPORTANT)
+        
         String fileType = "other";
         int dotIndex = originalFileName.lastIndexOf(".");
 
@@ -72,10 +72,10 @@ public class UploadServlet extends HttpServlet {
             fileType = originalFileName.substring(dotIndex + 1).toLowerCase();
         }
 
-        // 💾 Save file
+        
         filePart.write(filePath);
 
-        // 🗄 Save to DB
+        
         try {
             Connection con = dbconnection.getcon();
 

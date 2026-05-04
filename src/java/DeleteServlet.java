@@ -30,7 +30,7 @@ public class DeleteServlet extends HttpServlet {
         try {
             Connection con = dbconnection.getcon();
 
-            // get file path
+            
             PreparedStatement ps1 = con.prepareStatement(
                 "SELECT file_path FROM files WHERE file_id=?"
             );
@@ -43,7 +43,7 @@ public class DeleteServlet extends HttpServlet {
                 if (file.exists()) file.delete();
             }
 
-            // delete from DB
+            
             PreparedStatement ps2 = con.prepareStatement(
                 "DELETE FROM files WHERE file_id=?"
             );

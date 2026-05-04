@@ -42,23 +42,23 @@ public class DownloadServlet extends HttpServlet {
             if (rs.next()) {
 
                 String filePath = rs.getString("file_path");
-                String fileName = rs.getString("file_name"); // original name
+                String fileName = rs.getString("file_name"); 
 
                 File file = new File(filePath);
 
-                // 🔴 IMPORTANT: check file exists
+                
                 if (!file.exists()) {
                     response.getWriter().println("File not found on server!");
                     return;
                 }
 
-                // 🔽 Set headers
+                
                 response.setContentType("application/octet-stream");
                 response.setContentLength((int) file.length());
                 response.setHeader("Content-Disposition",
                         "attachment; filename=\"" + fileName + "\"");
 
-                // 📥 Stream file
+              
                 FileInputStream fis = new FileInputStream(file);
                 OutputStream os = response.getOutputStream();
 

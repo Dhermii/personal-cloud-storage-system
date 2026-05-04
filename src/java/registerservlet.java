@@ -33,16 +33,16 @@ public class registerservlet extends HttpServlet {
 
     try {
 
-        // ❗ STEP 1: CHECK PASSWORD MATCH
+       
         if (!password.equals(confirmPassword)) {
             response.getWriter().println("Passwords do not match!");
             return;
         }
 
-        // ❗ STEP 2: HASH PASSWORD
+        
         String hashedPassword = userpassword.hashPassword(password);
 
-        // ❗ STEP 3: INSERT INTO DATABASE
+        
         Connection con = dbconnection.getcon();
 
         PreparedStatement ps = con.prepareStatement(
@@ -57,7 +57,7 @@ public class registerservlet extends HttpServlet {
 
         con.close();
 
-        // ❗ STEP 4: REDIRECT
+        
         response.sendRedirect("index.html");
 
     } catch (Exception e) {

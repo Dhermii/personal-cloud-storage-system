@@ -27,12 +27,12 @@ public class loginservlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // 1️⃣ Get email and password and trim spaces
+        
         String email = request.getParameter("email").trim();
         String password = request.getParameter("password").trim();
 
         try {
-            // 2️⃣ Connect to database
+           
             Connection con = dbconnection.getcon();
             PreparedStatement ps = con.prepareStatement(
                     "SELECT userid, name FROM user WHERE email=? AND password=?");
@@ -43,7 +43,7 @@ public class loginservlet extends HttpServlet {
 
             ResultSet rs = ps.executeQuery();
 
-            // 3️⃣ Check if user exists
+            
             if (rs.next()) {
 
                 int userId = rs.getInt("userid");
@@ -56,7 +56,7 @@ public class loginservlet extends HttpServlet {
                 response.sendRedirect("mainpage.jsp");
 
             } else {
-                // 7️⃣ Invalid login
+                
                 request.setAttribute("error", "Invalid email or password");
                 request.getRequestDispatcher("index.html").forward(request, response);
             }
