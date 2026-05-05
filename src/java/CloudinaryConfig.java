@@ -12,9 +12,17 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
 public class CloudinaryConfig {
-       public static Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-        "cloud_name", "dqgbwotpy",
-        "api_key", "887129975798763",
-        "api_secret", "qjDRdzJ-kgT7y1hBTUg5W_nPcYM"
-    ));
+        public static Cloudinary cloudinary;
+
+    static {
+        try {
+            cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dqgbwotpy",
+                "api_key", "887129975798763",
+                "api_secret", "qjDRdzJ-kgT7y1hBTUg5W_nPcYM"
+            ));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

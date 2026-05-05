@@ -30,11 +30,10 @@ public class UploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          response.setContentType("text/html");
+        response.setContentType("text/html");
 
         try {
 
-            
             HttpSession session = request.getSession(false);
 
             if (session == null || session.getAttribute("userid") == null) {
@@ -44,7 +43,6 @@ public class UploadServlet extends HttpServlet {
 
             int userId = (int) session.getAttribute("userid");
 
-            
             Part filePart = request.getPart("file");
             String originalFileName = filePart.getSubmittedFileName();
 
@@ -53,7 +51,6 @@ public class UploadServlet extends HttpServlet {
                 return;
             }
 
-            
             Map uploadResult = CloudinaryConfig.cloudinary.uploader().upload(
                     filePart.getInputStream(),
                     ObjectUtils.asMap("resource_type", "auto")
@@ -61,7 +58,6 @@ public class UploadServlet extends HttpServlet {
 
             String fileUrl = (String) uploadResult.get("secure_url");
 
-            
             String fileType = "other";
             if (originalFileName.contains(".")) {
                 fileType = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
@@ -69,11 +65,10 @@ public class UploadServlet extends HttpServlet {
 
             long fileSize = filePart.getSize();
 
-            
             Connection con = dbconnection.getcon();
 
             PreparedStatement ps = con.prepareStatement(
-                "INSERT INTO files(userid, file_name, file_path, file_size, file_type) VALUES (?, ?, ?, ?, ?)"
+                    "INSERT INTO files(userid, file_name, file_path, file_size, file_type) VALUES (?, ?, ?, ?, ?)"
             );
 
             ps.setInt(1, userId);
@@ -87,7 +82,6 @@ public class UploadServlet extends HttpServlet {
             ps.close();
             con.close();
 
-           
             response.sendRedirect("mainpage.jsp");
 
         } catch (Exception e) {
