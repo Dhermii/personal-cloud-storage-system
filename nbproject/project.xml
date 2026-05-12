@@ -11,10 +11,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.httpcore5-5.2.4.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.httpclient5-5.3.1.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
@@ -32,6 +28,10 @@
                 </library>
                 <library dirs="200">
                     <file>${file.reference.slf4j-simple-2.0.13.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.httpcore5-5.3.2.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>
