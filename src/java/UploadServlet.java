@@ -33,16 +33,13 @@ public class UploadServlet extends HttpServlet {
         response.setContentType("text/html");
 
         try {
-
             HttpSession session = request.getSession(false);
-
             if (session == null || session.getAttribute("userid") == null) {
                 response.sendRedirect("index.html");
                 return;
             }
 
             int userId = (int) session.getAttribute("userid");
-
             Part filePart = request.getPart("file");
             String originalFileName = filePart.getSubmittedFileName();
 
@@ -51,13 +48,19 @@ public class UploadServlet extends HttpServlet {
                 return;
             }
 
+            // 1. Convert the file stream to a byte array (Fixes many upload issues)
+            byte[] fileBytes = filePart.getInputStream().readAllBytes();
+
+            // 2. Upload to Cloudinary using the byte array
             Map uploadResult = CloudinaryConfig.cloudinary.uploader().upload(
-                    filePart.getInputStream(),
+                    fileBytes,
                     ObjectUtils.asMap("resource_type", "auto")
             );
 
+            // 3. Extract the URL returned by Cloudinary
             String fileUrl = (String) uploadResult.get("secure_url");
 
+            // 4. Determine file extension
             String fileType = "other";
             if (originalFileName.contains(".")) {
                 fileType = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
@@ -65,28 +68,29 @@ public class UploadServlet extends HttpServlet {
 
             long fileSize = filePart.getSize();
 
-            Connection con = dbconnection.getcon();
+            // 5. Database logic
+            try (Connection con = dbconnection.getcon()) {
+                String sql = "INSERT INTO files(userid, file_name, file_path, file_size, file_type) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setInt(1, userId);
+                ps.setString(2, originalFileName);
+                ps.setString(3, fileUrl);
+                ps.setLong(4, fileSize);
+                ps.setString(5, fileType);
 
-            PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO files(userid, file_name, file_path, file_size, file_type) VALUES (?, ?, ?, ?, ?)"
-            );
+                ps.executeUpdate();
+                ps.close();
+            }
 
-            ps.setInt(1, userId);
-            ps.setString(2, originalFileName);
-            ps.setString(3, fileUrl);
-            ps.setLong(4, fileSize);
-            ps.setString(5, fileType);
-
-            ps.executeUpdate();
-
-            ps.close();
-            con.close();
-
+            // Redirect back to the main page after success
             response.sendRedirect("mainpage.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().println("UPLOAD ERROR: " + e.getMessage());
+            response.setContentType("text/html");
+            response.getWriter().println("<h2>UPLOAD ERROR</h2>");
+            response.getWriter().println("<p>" + e.getMessage() + "</p>");
+            response.getWriter().println("<p>Check the server logs on Render for the full stack trace.</p>");
         }
     }
 }
